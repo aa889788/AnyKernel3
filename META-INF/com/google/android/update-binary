@@ -291,6 +291,20 @@ author=AnyKernel3
 description=$KERNEL_STRING
 EOF
 }
+dump_service() {
+cat <<'EOF' > $1;
+#!/system/bin/sh
+MODDIR=${0%/*}
+devices=$(getprop ro.product.vendor.name)
+if [ "$devices" == "OnePlus5" ]; then
+    echo 66 > /proc/fliker_free/min_brightness;
+else
+    echo 370 > /proc/fliker_free/min_brightness;
+fi 
+sleep 10s
+echo 1 > /proc/fliker_free/fliker_free
+EOF
+}
 dump_moduleremover() {
 cat <<'EOF' > $1;
 #!/system/bin/sh
@@ -317,6 +331,7 @@ do_modules() {
       $BB cp -rLf * $moddir;
       dump_moduleinfo $moddir/module.prop;
       dump_moduleremover $moddir/post-fs-data.sh;
+      dump_service $moddir/service.sh;
       cp -f $AKHOME/vertmp $moddir/version;
       umask $umask;
     else
