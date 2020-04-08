@@ -301,8 +301,6 @@ if [ "$devices" == "OnePlus5" ]; then
 else
     echo 370 > /proc/fliker_free/min_brightness;
 fi 
-sleep 10s
-echo 1 > /proc/fliker_free/fliker_free
 EOF
 }
 dump_moduleremover() {
